@@ -80,6 +80,8 @@ Welcome to the **Profiler Templates** repository: a collection of flexible templ
   ]
 }
 
+```
+
 ## Usage
 
 1. **Install WeasyPrint** for PDF generation from HTML/CSS.  
