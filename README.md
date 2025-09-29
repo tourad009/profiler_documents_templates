@@ -106,6 +106,8 @@ rendered_html = template.render(**cv_data)
 # Generate PDF
 HTML(string=rendered_html).write_pdf("cv.pdf")
 
+```
+
 ## Purpose
 
 This repository supports **Profiler**, a SaaS platform that automatically generates personalized, professional CVs and cover letters. The conversational agent built for Profiler can:  
