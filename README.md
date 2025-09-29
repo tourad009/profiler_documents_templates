@@ -8,7 +8,7 @@ Welcome to the **Profiler Templates** repository: a collection of flexible templ
 
 ### Folders
 
-- `CV_templates/`  
+- `cv_templates/`  
   Contains 5 HTML/CSS CV templates ready for PDF generation via **WeasyPrint**:  
   1. `cv_classic.html.jinja2` – Classic, single column.  
   2. `cv_modern_two_column.html.jinja2` – Modern, two columns, compact layout.  
