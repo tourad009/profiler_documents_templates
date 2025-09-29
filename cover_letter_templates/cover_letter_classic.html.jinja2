@@ -1,76 +1,63 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<style>
-  @page { size: A4; margin: 2cm; }
-  body {
-    font-family: Arial, sans-serif;
-    font-size: {{ font_size | default('11pt') }};
-    line-height: 1.3;
-    color: #333;
-  }
-  h1 { font-size: 16pt; margin-bottom: 0.5em; color: {{ colors.primary | default('#003366') }}; }
-  .section { margin-bottom: 0.8em; }
-  p { margin: 0.3em 0; }
-</style>
+    <meta charset="UTF-8">
+    <title>Cover Letter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: {{ font_size }};
+            color: {{ colors.primary }};
+            background-color: {{ colors.background }};
+            margin: 40px;
+            line-height: 1.6;
+        }
+        .header {
+            border-bottom: 2px solid {{ colors.highlight }};
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .contact-info {
+            margin-bottom: 20px;
+        }
+        .recipient-info {
+            margin-bottom: 20px;
+        }
+        .content {
+            margin-bottom: 20px;
+        }
+        .closing {
+            margin-top: 20px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-
-<h1>Lettre de motivation</h1>
-
-<p>{{ date | default('') }}</p>
-<p>{{ recipient_name | default('') }}<br>{{ recipient_position | default('') }}<br>{{ company | default('') }}</p>
-
-{% if opening %}
-<div class="section">
-  <p>{{ opening }}</p>
-</div>
-{% endif %}
-
-{% if motivation %}
-<div class="section">
-  <p>{{ motivation }}</p>
-</div>
-{% endif %}
-
-{% if experience %}
-<div class="section">
-  <p>{{ experience }}</p>
-</div>
-{% endif %}
-
-{% if skills %}
-<div class="section">
-  <p>{{ skills | join(', ') }}</p>
-</div>
-{% endif %}
-
-{% if projects %}
-<div class="section">
-  <p>{{ projects | join('; ') }}</p>
-</div>
-{% endif %}
-
-{% if closing %}
-<div class="section">
-  <p>{{ closing }}</p>
-</div>
-{% endif %}
-
-<p>{{ sender_name | default(name) }}</p>
-<p>Email: {{ email }} | Tel: {{ phone }}</p>
-{% if linkedin %}<p>LinkedIn: {{ linkedin }}</p>{% endif %}
-{% if github %}<p>GitHub: {{ github }}</p>{% endif %}
-{% if website %}<p>Site: {{ website }}</p>{% endif %}
-
-{% if additional_sections %}
-{% for sec in additional_sections %}
-<div class="section">
-  <p><strong>{{ sec.title }}:</strong> {{ sec.content }}</p>
-</div>
-{% endfor %}
-{% endif %}
-
+    <div class="header">
+        <h1>{{ name }}</h1>
+        <div class="contact-info">
+            <p>{{ email }} | {{ phone }}{% if city %} | {{ city }}{% endif %}</p>
+        </div>
+    </div>
+    <div class="recipient-info">
+        <p>{{ recipient_name | default('Hiring Manager') }}<br>
+        {{ company_name }}<br>
+        {{ city | default('') }}</p>
+    </div>
+    <p><strong>Objet :</strong> Candidature pour {{ job_title }}</p>
+    <div class="content">
+        <p>Cher(e) {{ recipient_name | default('Hiring Manager') }},</p>
+        <p>Je suis enthousiaste à l'idée de postuler pour le poste de {{ job_title }} chez {{ company_name }}. Voici pourquoi je suis un excellent candidat :</p>
+        {{ motivation_points | safe }}
+        <p>{{ closing_statement | default('Je vous remercie pour l\'attention portée à ma candidature et reste disponible pour un entretien.') }}</p>
+    </div>
+    <div class="closing">
+        <p>Cordialement,<br>{{ name }}</p>
+    </div>
 </body>
 </html>
