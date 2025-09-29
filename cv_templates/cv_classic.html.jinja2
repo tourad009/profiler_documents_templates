@@ -1,111 +1,246 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<style>
-  @page { size: A4; margin: 1.5cm; }
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.2;
-    font-size: {{ font_size | default('11pt') }};
-    color: #333;
-  }
-  h1 { font-size: 18pt; color: {{ colors.primary | default('#003366') }}; margin-bottom: 0.2em; }
-  h2 { font-size: 12pt; color: {{ colors.secondary | default('#666') }}; margin-top: 0.5em; margin-bottom: 0.2em; }
-  .section { margin-bottom: 0.5em; }
-  ul { padding-left: 1em; margin: 0; list-style-type: disc; }
-</style>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm 1.5cm;
+            @top-center {
+                content: "";
+            }
+            @bottom-center {
+                content: counter(page) " / " counter(pages);
+                font-size: 8pt;
+                color: {{ colors.secondary | default('#718096') }};
+            }
+        }
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            line-height: 1.6;
+            font-size: {{ font_size | default('11pt') }};
+            color: {{ colors.primary | default('#1A202C') }};
+            background-color: {{ colors.background | default('#FFFFFF') }};
+        }
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 1.5em;
+            border-bottom: 2px solid {{ colors.highlight | default('#4299E1') }};
+            padding-bottom: 0.8em;
+        }
+        h1 {
+            font-size: 28pt;
+            color: {{ colors.highlight | default('#4299E1') }};
+            margin: 0;
+            font-weight: 700;
+        }
+        h2 {
+            font-size: 14pt;
+            color: {{ colors.primary | default('#1A202C') }};
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 1.5em 0 0.5em;
+            border-bottom: 1px solid {{ colors.secondary | default('#718096') }};
+            padding-bottom: 0.3em;
+        }
+        h3 {
+            font-size: 11pt;
+            font-weight: 600;
+            color: {{ colors.primary | default('#1A202C') }};
+            margin: 0.5em 0 0.3em;
+        }
+        .contact {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5em;
+            font-size: 10pt;
+            color: {{ colors.secondary | default('#718096') }};
+            margin-top: 0.5em;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .contact-item i {
+            color: {{ colors.highlight | default('#4299E1') }};
+            font-size: 10pt;
+        }
+        .contact-item a {
+            color: {{ colors.highlight | default('#4299E1') }};
+            text-decoration: none;
+        }
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+        .section {
+            margin-bottom: 1.5em;
+        }
+        ul {
+            padding-left: 0;
+            margin: 0.5em 0;
+            list-style-type: none;
+        }
+        li {
+            position: relative;
+            margin-bottom: 0.5em;
+            padding-left: 1.5em;
+        }
+        li:before {
+            content: "\f058";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: {{ colors.highlight | default('#4299E1') }};
+            font-size: 10pt;
+        }
+        .item-title {
+            font-weight: 600;
+            font-size: 11pt;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .item-title i {
+            color: {{ colors.highlight | default('#4299E1') }};
+            font-size: 10pt;
+        }
+        .item-date {
+            font-style: italic;
+            font-size: 10pt;
+            color: {{ colors.secondary | default('#718096') }};
+            margin-left: 1.5em;
+        }
+        .experience-item, .education-item, .project-item, .certification-item {
+            margin-bottom: 1.2em;
+        }
+        .description {
+            font-size: 10pt;
+            margin-top: 0.3em;
+            margin-left: 1.5em;
+        }
+        a {
+            color: {{ colors.highlight | default('#4299E1') }};
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ name }}</h1>
+            {% if title %}<h2>{{ title }}</h2>{% endif %}
+            <div class="contact">
+                <div class="contact-item"><i class="fas fa-envelope"></i> <a href="mailto:{{ email }}">{{ email }}</a></div>
+                <div class="contact-item"><i class="fas fa-phone"></i> {{ phone }}</div>
+                {% if linkedin %}<div class="contact-item"><i class="fab fa-linkedin"></i> <a href="{{ linkedin }}">{{ linkedin }}</a></div>{% endif %}
+                {% if github %}<div class="contact-item"><i class="fab fa-github"></i> <a href="{{ github }}">{{ github }}</a></div>{% endif %}
+                {% if website %}<div class="contact-item"><i class="fas fa-globe"></i> <a href="{{ website }}">{{ website }}</a></div>{% endif %}
+                {% if ville %}<div class="contact-item"><i class="fas fa-map-marker-alt"></i> {{ ville }}</div>{% endif %}
+            </div>
+        </div>
 
-<h1>{{ name }}</h1>
-<h2>{{ title }}</h2>
-<p>Email: {{ email }} | Tel: {{ phone }}</p>
-{% if linkedin %}<p>LinkedIn: {{ linkedin }}</p>{% endif %}
-{% if github %}<p>GitHub: {{ github }}</p>{% endif %}
-{% if website %}<p>Site: {{ website }}</p>{% endif %}
+        {% if skills %}
+        <div class="section">
+            <h2><i class="fas fa-tools"></i> Compétences</h2>
+            {% for category, skill_list in skills.items() %}
+            <h3>{{ category }}</h3>
+            <ul>
+                {% for skill in skill_list %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </div>
+        {% endif %}
 
-{% if skills %}
-<div class="section">
-  <h2>Compétences</h2>
-  <ul>
-  {% for category, skill_list in skills.items() %}
-    <li><strong>{{ category }}:</strong> {{ skill_list | join(', ') }}</li>
-  {% endfor %}
-  </ul>
-</div>
-{% endif %}
+        {% if experience %}
+        <div class="section">
+            <h2><i class="fas fa-briefcase"></i> Expérience Professionnelle</h2>
+            {% for exp in experience %}
+            <div class="experience-item">
+                <span class="item-title"><i class="fas fa-chevron-right"></i> {{ exp.position }} – {{ exp.company }}</span>
+                <span class="item-date">{{ exp.start_date }} – {{ exp.end_date }}</span>
+                <div class="description">{{ exp.description | safe }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
-{% if experience %}
-<div class="section">
-  <h2>Expérience</h2>
-  <ul>
-  {% for exp in experience %}
-    <li><strong>{{ exp.position }}</strong> – {{ exp.company }} ({{ exp.start_date }}–{{ exp.end_date }})<br>{{ exp.description }}</li>
-  {% endfor %}
-  </ul>
-</div>
-{% endif %}
+        {% if education %}
+        <div class="section">
+            <h2><i class="fas fa-graduation-cap"></i> Formation</h2>
+            {% for edu in education %}
+            <div class="education-item">
+                <span class="item-title"><i class="fas fa-chevron-right"></i> {{ edu.degree }} – {{ edu.institution }}</span>
+                <span class="item-date">{{ edu.year }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
-{% if education %}
-<div class="section">
-  <h2>Formation</h2>
-  <ul>
-  {% for edu in education %}
-    <li>{{ edu.degree }} – {{ edu.institution }} ({{ edu.year }})</li>
-  {% endfor %}
-  </ul>
-</div>
-{% endif %}
+        {% if projects %}
+        <div class="section">
+            <h2><i class="fas fa-project-diagram"></i> Projets</h2>
+            {% for proj in projects %}
+            <div class="project-item">
+                <span class="item-title"><i class="fas fa-chevron-right"></i> {{ proj.name }}</span>
+                <div class="description">{{ proj.description }}</div>
+                {% if proj.technos %}
+                <div class="description"><strong>Technologies:</strong> {{ proj.technos }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
-{% if projects %}
-<div class="section">
-  <h2>Projets</h2>
-  <ul>
-  {% for proj in projects %}
-    <li><strong>{{ proj.name }}</strong>: {{ proj.description }}</li>
-  {% endfor %}
-  </ul>
-</div>
-{% endif %}
+        {% if certifications %}
+        <div class="section">
+            <h2><i class="fas fa-certificate"></i> Certifications</h2>
+            {% for cert in certifications %}
+            <div class="certification-item">
+                <span class="item-title"><i class="fas fa-chevron-right"></i> {{ cert.name }}</span> – {{ cert.year }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
-{% if certifications %}
-<div class="section">
-  <h2>Certifications</h2>
-  <ul>
-  {% for cert in certifications %}
-    <li>{{ cert.name }} – {{ cert.year }}</li>
-  {% endfor %}
-  </ul>
-</div>
-{% endif %}
+        {% if languages %}
+        <div class="section">
+            <h2><i class="fas fa-language"></i> Langues</h2>
+            <ul>
+                {% for lang in languages %}
+                <li>{{ lang.language }} – {{ lang.level }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
-{% if languages %}
-<div class="section">
-  <h2>Langues</h2>
-  <ul>
-  {% for lang in languages %}
-    <li>{{ lang.language }} – {{ lang.level }}</li>
-  {% endfor %}
-  </ul>
-</div>
-{% endif %}
+        {% if hobbies %}
+        <div class="section">
+            <h2><i class="fas fa-star"></i> Centres d'Intérêt</h2>
+            <p>{{ hobbies | join(', ') }}</p>
+        </div>
+        {% endif %}
 
-{% if hobbies %}
-<div class="section">
-  <h2>Loisirs</h2>
-  <p>{{ hobbies | join(', ') }}</p>
-</div>
-{% endif %}
-
-{% if additional_sections %}
-{% for sec in additional_sections %}
-<div class="section">
-  <h2>{{ sec.title }}</h2>
-  <p>{{ sec.content }}</p>
-</div>
-{% endfor %}
-{% endif %}
-
+        {% if additional_sections %}
+        {% for sec in additional_sections %}
+        <div class="section">
+            <h2><i class="fas fa-plus-circle"></i> {{ sec.title }}</h2>
+            <p>{{ sec.content | safe }}</p>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
 </body>
 </html>
